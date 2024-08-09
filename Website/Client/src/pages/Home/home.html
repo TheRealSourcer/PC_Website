@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLDG Technologies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/03e8f5f44b.js" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="icon" href="../Media/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../general style.css">
+    <link rel="stylesheet" href="index_style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- Include React and ReactDOM -->
+    <script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div class="cursor-dot cursor"></div>
+    <div class="cursor-outline cursor"></div>
+
+    <div class="nav-bar"></div>
+    
+    <div class="cart-container"></div>
+    
+    <main>
+        <video id="background-video" class="intro" autoplay loop muted>
+            <source src="..\Media\Epic PC.mp4" type="video/mp4">
+        </video>
+        <div class="text-wrapper">
+            <p class="text">
+                Built For Gamers 
+                <br>
+                <span class="by">
+                    By Gamers
+                </span>
+            </p>
+        </div>
+        
+    
+        <div class="pc-container" id="pc-container">
+            <div class="background-smoother-image pc product" data-tilt data-tilt-scale="1.1" data-tilt-axis="x">
+                <div class="smoother pc-info">
+                    <h3 class="pc-title">SMOOTHER</h3>
+                    <p class="pc-description">
+                        Unleash Your Gaming Potential Without Breaking the Bank!
+                        Introducing our latest budget-friendly gaming PC, designed for gamers who demand performance without the hefty price tag. This low-end gaming powerhouse is perfect for diving into the world of gaming, whether you're exploring vast open worlds, competing in intense multiplayer battles, or embarking on epic quests.
+                    </p>
+                    <img class="img-pc" src="..\Media/smoother/smoother1.jpg">
+                    <div class="buy choose" data-product="Smoother">BUY</div>
+                </div>
+            </div>
+            
+            <div class="background-beast-image pc product" data-tilt data-tilt-scale="1.1" data-tilt-axis="x">
+                <div class="beast pc-info">
+                    <h3 class="pc-title">BEAST</h3>
+                    <p class="pc-description">
+                        Elevate Your Gaming Experience with Our Next-Level Gaming PC!
+                        Step up your game with our new gaming PC, crafted for gamers who seek a perfect balance of performance, quality, and affordability. Whether you're aiming for high scores, exploring new worlds, or streaming your gameplay, this gaming rig is built to deliver an exceptional experience - Take the next step in your gaming journey and secure your system now!
+                    </p>
+                    <img class="img-pc" src="../Media/beast/beast1.jpg">
+                    <div class="buy choose" data-product="Beast">BUY</div>
+                </div>
+            </div>
+    
+            <div class="background-terminator-image pc product" data-tilt data-tilt-scale="1.1" data-tilt-axis="x">
+                <div class="terminator pc-info">
+                    <h3 class="pc-title">TERMINATOR</h3>
+                    <p class="pc-description">
+                        Enhance Your Gaming Experience with Our Advanced Gaming PC!
+                        Take your gaming to new heights with our advanced gaming PC, designed for enthusiasts who seek impressive performance and cutting-edge technology. Whether you're conquering the latest AAA titles, streaming your gameplay, or creating content, this rig delivers the power and precision needed to excel.
+                    </p>
+                    <img class="img-pc" src="../Media/terminator/terminator1.jpg">
+                    <div class="buy choose" data-product="Terminator">BUY</div>
+                </div>
+            </div>
+            
+            <div class="background-spaceship-image pc product" data-tilt data-tilt-scale="1.1" data-tilt-axis="x">
+                <div class="spaceship pc-info">
+                    <h3 class="pc-title">SPACESHIP</h3>
+                    <p class="pc-description">
+                        Command the Game with Our Ultimate Gaming PC!
+                        Introducing the pinnacle of gaming technology: our Ultimate Gaming PC. Designed for the most demanding gamers and tech enthusiasts, this machine combines unrivaled power, cutting-edge features, and exceptional build quality. Whether you're playing the latest AAA titles, streaming in 4K, or creating high-end content, this rig delivers an unparalleled experience.
+                    </p>
+                    <img class="img-pc" src="../Media/spaceship/spaceship1.jpg">
+                    <div class="buy choose" data-product="Spaceship">BUY</div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="follow">
+            <p class="follow-text">FOLLOW THE <a class="follow-link" href="https://www.instagram.com/bldg_build/" target="_blank">@BLDG</a></p>
+            <div class="iconContainer icon-follow-section-container hidden">
+                <div class="facebookAccount account fa-brands fa-facebook-f fa-xl">
+                    <a href="https://www.facebook.com/profile.php?id=61560511531799" class="account-link" target="_blank"></a>
+                </div>
+                <div class="xAccount account fa-brands fa-x-twitter fa-xl">
+                    <a href="https://x.com/BLDG_Tech" class="account-link" target="_blank"></a>
+                </div>
+                <div class="instagramAccount account fa-brands fa-instagram fa-xl">
+                    <a href="https://www.instagram.com/bldg_build/" class="account-link" target="_blank"></a>
+                </div>
+                <div class="tiktokAccount account fa-brands fa-tiktok fa-xl">
+                    <a href="https://www.tiktok.com/@bldgtech?lang=en" class="account-link" target="_blank"></a>
+                </div>
+                <div class="youtubeAccount account fa-brands fa-youtube fa-xl">
+                    <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" class="account-link" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <div class="footer-container"></div>
+
+
+    <!-- Include React Component and Rendering --><!-- Include React Component and Rendering -->
+    <script type="text/babel" src="../Components.js"></script>
+
+    <!-- Include your custom scripts here -->
+    <script src="../Dream PC/buy.js"></script>
+    <script src="../code.js"></script>
+    <script src="../tilt.js"></script>
+    <script src="../pc select.js"></script>
+    <script src="../cart.js"></script>
+    <script src="../expandable titles.js"></script>
+
+    
+    
+</body>
+</html>

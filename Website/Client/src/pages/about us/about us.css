@@ -1,0 +1,104 @@
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    min-height: 105vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 50px;
+    box-sizing: border-box;
+    
+}
+
+
+.mission, .performance, .warranty, .thank-you {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mission { background-image: url(../Media/about-us-background-1.svg); }
+.performance { background-image: url(../Media/about-us-background-2.svg); }
+.warranty { background-image: url(../Media/about-us-background-3.svg); }
+.thank-you { background-image: url(../Media/about-us-background-4.svg); }
+
+.title-text {
+    
+    width: auto;
+    height: fit-content;
+    z-index: 1; /* Ensure text is above the background */
+}
+
+.title {
+    display: inline;
+    color: white;
+    display: block;
+    height: 58px;
+    font-size: 50px;
+    width: auto;
+    height: fit-content;
+}
+
+.about-text {
+    font-family: 'Poppins';
+    display: block;
+    width: auto;
+    max-width: 400px;
+    line-height: 1.8;
+    height: fit-content;
+}
+
+.about-img {
+    width: 45%;
+    max-height: 70vh;
+    object-fit: cover;
+    border-radius: 10px;
+    
+}
+
+@media (max-width: 768px) {
+    .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        box-sizing: border-box;
+        
+    }
+
+    .title-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .about-text {
+        font-family: 'Poppins';
+        display: block;
+        width: auto;
+        max-width: 400px;
+        line-height: 1.8;
+        height: fit-content;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .about-img {
+        width: 100%;
+        max-height: 70vh;
+        object-fit: cover;
+        border-radius: 10px;
+        
+    }
+}

@@ -1,0 +1,229 @@
+
+#background-video {
+    width: 100%;
+    height: 80vh; /* Set height to 70% of the viewport height */
+    object-fit: cover;
+    background-color: #000000;
+}
+
+.text-wrapper {
+    position: relative; 
+    width: 100%;
+}
+
+.text {
+    position: absolute;
+    color: aliceblue;
+    font-size: 200%;
+    z-index: 3;
+    top: -200px;
+    left: 0px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 212, 255, 0) 100%);
+    width: 100%;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.by {
+    color: rgb(112, 222, 255);
+    font-size: 80%;
+}
+
+
+.icon-follow-section-container {
+    box-sizing: border-box;
+    position: absolute;
+    top: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px hsla(0, 0%, 0%, .30);
+    width: 320px;
+    height: 70px;
+    gap: 25px;
+    padding-bottom: 20px;
+}
+
+
+.follow {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    position: relative;
+    padding: 70px 0 110px 0;
+}
+
+.follow-text {
+    margin-bottom: 50px;
+    font-size: 50px;
+    text-align:center;
+    padding: 15px;
+}
+
+.follow-link {
+    text-decoration: none;
+    color: #5db6da;
+    transition: all 0.3s ease-in-out;
+}
+
+.follow-link:hover {
+    color: rgb(71, 203, 255);
+}
+
+.pc-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    background: linear-gradient(#8b84eb,#e384eb,#eb848d);
+    padding: 30px;
+}
+
+
+.pc-description {
+    display: block;
+    height: 130px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing:none;
+    font-weight: 200;
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.img-pc {
+    object-fit: cover;
+    width: 90%;
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 100;
+    flex: 1;
+}
+
+.buy {
+    width: 100px;
+    height: 20px;
+    background-color: #48b356;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 30px 30px 30px 30px;
+    text-align: center;
+    border-bottom: none;
+    transition: transform 0.5s,background-color 0.5s;
+}
+
+.buy:hover {
+    background-color: #2e7738;
+    transform: translateY(-5px);
+    transition: transform 0.2s,background-color 0.4s;
+}
+
+.pc-title {
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.background-smoother-image {
+    background-image: url('../../assets/smoother/Smoother Background.jpg');
+    padding: 7px;
+    border-radius: 10px;
+    margin: 20px;
+    background-size: 700px;
+}
+
+.background-beast-image {
+    background-image: url('../../assets/beast/Beast Background.jpg');
+    padding: 7px;
+    border-radius: 10px;
+    margin: 20px;
+    background-size: 700px;
+    background-position: center;
+}
+
+.background-terminator-image {
+    background-image: url('../../assets/terminator/Terminator Background.jpg');
+    padding: 7px;
+    border-radius: 10px;
+    margin: 20px;
+    background-size: 700px;
+}
+
+.background-spaceship-image {
+    background-image: url('../../assets/spaceship/Spaceship Background.jpg');
+    padding: 40px;
+    border-radius: 10px;
+    margin: 20px;
+    background-size: 700px;
+}
+
+.pc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    height: 620px;
+    min-height: 470px;
+    max-width: 320px;
+    min-width: 250px;
+    padding: 40px;
+    flex: 1 1 25%;
+    margin-top: 0;
+}
+
+.pc::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff34;
+    border-radius: 10px;
+}
+
+.pc-info {
+    display: flex;
+    padding: 20px;
+    background: #e2e2e2;
+    flex-direction: column;
+    height: 600px;
+    min-height: 450px;
+    width: 380px;
+    min-width: 250px;
+    border-radius: 10px;
+    align-items: center;
+    transform: translateZ(40px);
+    flex-shrink: 2;
+}
+
+.hidden {
+
+    filter: blur(4px);
+    top: 300px;
+    transition: all 1s ease;
+}
+
+.show {
+    top: 58%;
+    filter: blur(0);
+}
+
+@media (max-width: 768px) {
+    .pc-title {
+        font-size: 6.5vw;
+    }
+    .text {
+        justify-content: end;
+    }
+}

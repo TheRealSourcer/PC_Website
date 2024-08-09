@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="../general style.css">
+    <link rel="stylesheet" href="dream pc.css">
+    <script src="https://kit.fontawesome.com/03e8f5f44b.js" crossorigin="anonymous"></script>
+    <!-- Include React and ReactDOM -->
+    <script src="https://unpkg.com/react/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div class="cursor-dot cursor"></div>
+    <div class="cursor-outline cursor"></div>
+    
+    <div class="nav-bar"></div>
+
+    <div class="cart-container"></div>
+
+    
+
+
+    <main>
+        <div class="product-info section">
+            <h1 id="product-name" class="product-part"></h1>
+            <p id="product-price" class="product-part"></p>
+        </div>
+        
+        <div class="carousel-container">
+            <button class="carousel-control prev">&lt;</button>
+            <div class="carousel-dots-container">
+                <div class="carousel">
+                    <div class="carousel-inner draggable">
+                        <div class="carousel-item active">
+                            <img id="product-image"  class="product-image1">
+                        </div>
+                        <div class="carousel-item">
+                            <img id="product-image"  class="product-image2">
+                        </div>
+                        <div class="carousel-item">
+                            <img id="product-image"  class="product-image3">
+                        </div>
+                        <div class="carousel-item">
+                            <img id="product-image" class="product-image4">
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-dots"></div>
+            </div>
+            <button class="carousel-control next">&gt;</button>
+        </div>
+
+        
+        <div class="features section">
+            <p id="product-description" class="product-part"></p>
+            <div id="product-features" class="product-part"></div>
+            <button class="cart-button"><i class="fa-solid fa-cart-shopping cart-button-icon" style="color: #ffffff;"></i></button>
+        </div>
+    </main>
+    
+        
+
+    
+
+    <div class="footer-container"></div>
+
+    <!-- Include React Component and Rendering --><!-- Include React Component and Rendering -->
+    <script type="text/babel" src="../Components.js"></script>
+
+</body>
+</html>
+<script src="buy.js"></script>
+<script src="dream pc.js"></script>
+<script src="carousel.js"></script>
+<script src="..\code.js"></script>
+<script src="..\tilt.js"></script>
+<script src="../pc select.js"></script>
+<script src="../cart.js"></script>
+<script src="../expandable titles.js"></script>
