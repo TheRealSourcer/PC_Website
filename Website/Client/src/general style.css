@@ -24,7 +24,6 @@ input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 html, body {
     padding: 0;
     margin: 0;
@@ -43,6 +42,12 @@ html, body {
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 main {
@@ -651,20 +656,33 @@ body {
 }
 
 .cart {
-    display: none;
-    color: #fff;
-    background-color: rgb(20, 20, 20);
-    padding: 20px;
-    z-index: 150;
-    flex-direction: column;
-    position: absolute;
-    top: 80px;
-    bottom: 0px;
-    right: -600px;
     box-shadow: -10px 0px 100px rgb(0, 0, 0);
     width: 500px;
     transition: all 0.8s ease;
+    color: #fff;
+    background-color: rgb(20, 20, 20);
+    z-index: 150;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0px;
+    position: fixed;
+    right: -600px; /* Hidden by default */
+    top: 80px;
+    bottom: 0;
+    transition: right 0.4s ease; /* Smooth transition */
+    display: flex; /* Ensure the cart is a flex container */
+    flex-direction: column;
+    padding: 20px; 
 }
+
+.cart-visible {
+    right: 0;
+}
+
+.cart-hidden {
+    right: -600px;
+}
+
 
 .cart-item-image {
     box-sizing: border-box;

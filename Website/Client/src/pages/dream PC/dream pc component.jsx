@@ -275,7 +275,7 @@ export default function DreamPc() {
                 <p id="product-description" className="product-part" dangerouslySetInnerHTML={{ __html: product.description }}></p>
                 <div id="product-features" className="product-part">
                     <h3>Features:</h3>
-                    <ul>
+                    <ul className='components-list'>
                         {product.features.map((feature, index) => (
                             <li key={index}>{feature}</li>
                         ))}

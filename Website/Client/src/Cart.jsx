@@ -139,31 +139,26 @@ function initializeCart() {
 
     let isCartVisible = false;
 
-    function toggleCart() {
-        if (!isCartVisible) {
-            // Show cart
-            cart.style.display = 'flex';
-            setTimeout(() => {
-                cart.style.right = '0px';
-            }, 1);
-            cart.setAttribute('aria-hidden', 'false');
-        } else {
-            // Hide cart
-            cart.style.right = '-600px';
-            cart.setAttribute('aria-hidden', 'true');
-            
-            // Remove cart from DOM after transition
-            setTimeout(() => {
-                cart.style.display = 'none';
-            }, 800); // Adjust this value to match your transition duration
-        }
-        isCartVisible = !isCartVisible;
+function toggleCart() {
+    if (!isCartVisible) {
+        // Show cart
+        cart.classList.remove('cart-hidden');
+        cart.classList.add('cart-visible');
+        cart.setAttribute('aria-hidden', 'false');
+    } else {
+        // Hide cart
+        cart.classList.remove('cart-visible');
+        cart.classList.add('cart-hidden');
+        cart.setAttribute('aria-hidden', 'true');
     }
+    isCartVisible = !isCartVisible;
+}
 
-    cartIcon.addEventListener("click", (event) => {
-        event.preventDefault();
-        toggleCart();
-    });
+// Add event listener to the cart icon
+cartIcon.addEventListener("click", (event) => {
+    event.preventDefault();
+    toggleCart();
+});
 
     // Load and display cart on page load
     const cartItems = loadCart();
