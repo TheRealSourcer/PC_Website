@@ -29,17 +29,13 @@ export default function NavBar() {
                 <i className="fa-solid fa-bars bars"></i>
             </div>
             <div className="nav-center">
-                <div className="nav-group">
                     <Link to="/" className="dream-pc navBtn">Home</Link>
-                    <a href="/#pc-container" className="navBtn border-nav-btn" onClick={handleBestSellersClick}>Best Sellers</a>
-                </div>
+                    <a href="" className="navBtn border-nav-btn" onClick={handleBestSellersClick}>Best Sellers</a>
                 <Link to="/" className="logo-container">
                     <img src={LogoImage} alt="Logo" className="logo" />
                 </Link>
-                <div className="nav-group">
                     <Link to="/Support" className="navBtn border-nav-btn">Support</Link>
                     <Link to="/About Us" className="navBtn border-nav-btn">About Us</Link>
-                </div>
             </div>
             <div className="nav-right">
                 <i className="fa-solid fa-cart-shopping cart-icon"></i>

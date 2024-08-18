@@ -35,7 +35,7 @@ app.use(session({
 }));
 
 // CORS configuration
-const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://checkout.stripe.com'];
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://checkout.stripe.com'];
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -117,8 +117,8 @@ app.post("/create-checkout-session", async (req, res) => {
       
       mode: "payment",
       line_items: lineItems,
-      success_url: `${process.env.CLIENT_URL}/client/index/index.html`,
-      cancel_url: `${process.env.CLIENT_URL}/client/index/index.html`,
+      success_url: `${process.env.CLIENT_URL}/Client/src/index.html`,
+      cancel_url: `${process.env.CLIENT_URL}/Client/src/index.html`,
       
     });
 

@@ -48,6 +48,9 @@
     padding-bottom: 20px;
 }
 
+.icon-follow-section-container a {
+    color: #eb848d;
+}
 
 .follow {
     display: flex;

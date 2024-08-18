@@ -15,7 +15,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const accounts = document.querySelectorAll(".account");
+        const accounts = document.querySelectorAll(".account-link");
         accounts.forEach(account => {
             account.addEventListener("mouseover", () => {
                 account.classList.add("fa-bounce");
@@ -145,12 +145,12 @@ export default function Home() {
         
             <div className="follow">
                 <p className="follow-text">FOLLOW THE <a className="follow-link" href="https://www.instagram.com/bldg_build/" target="_blank" rel="noopener noreferrer">@BLDG</a></p>
-                <div ref={iconContainerRef} className="iconContainer icon-follow-section-container hidden">
-                    <a href="https://www.facebook.com/profile.php?id=61560511531799" className="facebookAccount account fa-brands fa-facebook-f fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
-                    <a href="https://x.com/BLDG_Tech" className="xAccount account fa-brands fa-x-twitter fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
-                    <a href="https://www.instagram.com/bldg_build/" className="instagramAccount account fa-brands fa-instagram fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
-                    <a href="https://www.tiktok.com/@bldgtech?lang=en" className="tiktokAccount account fa-brands fa-tiktok fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
-                    <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" className="youtubeAccount account fa-brands fa-youtube fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                <div ref={iconContainerRef} className="icon-container icon-follow-section-container hidden">
+                    <a href="https://www.facebook.com/profile.php?id=61560511531799" className="facebookAccount fa-brands fa-facebook-f fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                    <a href="https://x.com/BLDG_Tech" className="xAccount fa-brands fa-x-twitter fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                    <a href="https://www.instagram.com/bldg_build/" className="instagramAccount fa-brands fa-instagram fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                    <a href="https://www.tiktok.com/@bldgtech?lang=en" className="tiktokAccount fa-brands fa-tiktok fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                    <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" className="youtubeAccount fa-brands fa-youtube fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
                 </div>
             </div>
         </main>

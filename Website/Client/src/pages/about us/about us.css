@@ -4,7 +4,7 @@ main {
     flex-direction: column;
 }
 
-.section {
+.about-section {
     min-height: 105vh;
     width: 100%;
     display: flex;
@@ -62,7 +62,7 @@ main {
 }
 
 @media (max-width: 768px) {
-    .section {
+    .about-section {
         display: flex;
         flex-direction: column;
         align-items: center;

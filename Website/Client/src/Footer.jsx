@@ -5,6 +5,11 @@ import LogoImage from './assets/Logo.png';
 export default function Footer() {
     const navigate = useNavigate();
 
+    const handleTrackOrder = (e) => {
+        e.preventDefault();
+        navigate('/Support', { replace: true, state: { scrollTo: 'tracking-section' } });
+    };
+
     useEffect(() => {
         const handleExpandableClick = (event) => {
             if (event.target.classList.contains('expandable-title')) {
@@ -33,56 +38,46 @@ export default function Footer() {
         <footer className="footer">
             <div className="flex-footer-container">
                 <div className="footer-column">
-                    <form className="advice">
-                        <p className="advice-instructions">Send Us Advice or Concerns</p>
+                    <form className="advice-form">
+                        <h3 className="advice-title">Send Us Advice or Concerns</h3>
                         <div className="submission-elements">
                             <input type="text" className="input-advice" placeholder="advice or concerns" />
                             <input type="submit" className="submit-advice" value="Submit" />
                         </div>
                     </form>
         
-                    <div className="iconContainer" id="icon-footer-container">
-                        <div className="facebookAccount account fa-brands fa-facebook-f fa-xl">
-                            <a href="https://www.facebook.com/profile.php?id=61560511531799" className="account-link" target="_blank" rel="noopener noreferrer" />
-                        </div>
-                        <div className="xAccount account fa-brands fa-x-twitter fa-xl">
-                            <a href="https://x.com/BLDG_Tech" className="account-link" target="_blank" rel="noopener noreferrer" />
-                        </div>
-                        <div className="instagramAccount account fa-brands fa-instagram fa-xl">
-                            <a href="https://www.instagram.com/bldg_build/" className="account-link" target="_blank" rel="noopener noreferrer" />
-                        </div>
-                        <div className="tiktokAccount account fa-brands fa-tiktok fa-xl">
-                            <a href="https://www.tiktok.com/@bldgtech?lang=en" className="account-link" target="_blank" rel="noopener noreferrer" />
-                        </div>
-                        <div className="youtubeAccount account fa-brands fa-youtube fa-xl">
-                            <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" className="account-link" target="_blank" rel="noopener noreferrer" />
-                        </div>
+                    <div className="icon-container" id="icon-footer-container">
+                        <a href="https://www.facebook.com/profile.php?id=61560511531799" className="facebookAccount fa-brands fa-facebook-f fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://x.com/BLDG_Tech" className="xAccount fa-brands fa-x-twitter fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://www.instagram.com/bldg_build/" className="instagramAccount fa-brands fa-instagram fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://www.tiktok.com/@bldgtech?lang=en" className="tiktokAccount fa-brands fa-tiktok fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
+                        <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" className="youtubeAccount fa-brands fa-youtube fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
                     </div>
                 </div>
     
-                <div className="footer-column footer-column-links">
-                <div className="footer-link-container">
-                    <div className="expandable-section">
-                        <h3 className="expandable-title">Shop <span className="expand-icon">+</span></h3>
-                        <ul className="shop link-c">
-                            <li onClick={() => selectProduct('Smoother')} className="footer-link choose">Smoother</li>
-                            <li onClick={() => selectProduct('Beast')} className="footer-link choose">Beast</li>
-                            <li onClick={() => selectProduct('Terminator')} className="footer-link choose">Terminator</li>
-                            <li onClick={() => selectProduct('Spaceship')} className="footer-link choose">Spaceship</li>
-                        </ul>
-                    </div>
+                
+                    <div className="footer-column footer-link-container">
+                        <div className="expandable-section">
+                            <h3 className="expandable-title">Shop <span className="expand-icon">+</span></h3>
+                            <ul className="shop link-column">
+                                <li onClick={() => selectProduct('Smoother')} className="footer-link choose">Smoother</li>
+                                <li onClick={() => selectProduct('Beast')} className="footer-link choose">Beast</li>
+                                <li onClick={() => selectProduct('Terminator')} className="footer-link choose">Terminator</li>
+                                <li onClick={() => selectProduct('Spaceship')} className="footer-link choose">Spaceship</li>
+                            </ul>
+                        </div>
                         <div className="expandable-section">
                             <h3 className="expandable-title">Support <span className="expand-icon">+</span></h3>
-                            <ul className="Support link-c">
+                            <ul className="Support link-column">
                                 <li><Link to="/Reviews" className="footer-link">Reviews</Link></li>
                                 <li><Link to="/Why The BLDG" className="footer-link">Why BLDG</Link></li>
-                                <li><Link to="/Support" className="footer-link">Track Order</Link></li>
+                                <li><a onClick={handleTrackOrder} className="footer-link">Track Order</a></li>
                                 <li><Link to="/BLDG Upgrader" className="footer-link">BLDG Upgrader</Link></li>
                             </ul>
                         </div>
                         <div className="expandable-section">
                             <h3 className="expandable-title">Legal <span className="expand-icon">+</span></h3>
-                            <ul className="Legal link-c">
+                            <ul className="Legal link-column">
                                 <li><Link to="/Terms & Conditions" className="footer-link">Terms & Conditions</Link></li>
                                 <li><Link to="/Privacy Policy" className="footer-link">Privacy Policy</Link></li>
                                 <li><Link to="/Refund Policy" className="footer-link">Refund Policy</Link></li>
@@ -90,12 +85,13 @@ export default function Footer() {
                             </ul>
                         </div>
                     </div>
-                </div>
+                
     
                 <div className="footer-column footer-column-logo">
                     <Link to="/"><img src={LogoImage} alt="BLDG Logo" className="footer-logo" /></Link>
                 </div>
             </div>
+            
             <div className="copyright-container">
                 <p className="copyright">Copyright © 2024 BLDG Technologies. All Rights Reserved.</p>
             </div>

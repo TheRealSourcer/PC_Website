@@ -122,8 +122,7 @@
 #product-image {
     width: 500px;
     height: 400px; /* Set a fixed height */
-    object-fit: cover; /* This will cover the area, potentially cropping the image */
-    object-position: center; /* Centers the image within the container */
+    object-fit: cover; /* This will cover the area, potentially cropping the image */ /* Centers the image within the container */
     display: block;
     margin-bottom: 80px;
     background-color: #4a0e4e;
@@ -230,6 +229,11 @@
     .section {
         width: 100%;
         max-width: 600px;
+        min-height: fit-content;
+    }
+
+    .features {
+        padding-top: 0;
     }
 
     .carousel-container {

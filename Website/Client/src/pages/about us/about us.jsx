@@ -2,7 +2,7 @@ export default function AboutUs() {
     return (
         <main>
 
-        <section className="section mission">
+        <section className="about-section mission">
             <div className="title-text">
                 <h2 className="title">Our Mission</h2>
                 <p className="about-text">
@@ -12,7 +12,7 @@ export default function AboutUs() {
             <img src="../Media/Beast Galaxy.jpg" className="about-img" />
         </section>
     
-        <section className="section performance">
+        <section className="about-section performance">
             <div className="title-text">
                 <h2 className="title">Performance</h2>
                 <p className="about-text">
@@ -22,7 +22,7 @@ export default function AboutUs() {
             <img src="../Media/Beast Galaxy.jpg" className="about-img" />
         </section>
     
-        <section className="section warranty">
+        <section className="about-section warranty">
             <div className="title-text">
                 <h2 className="title">We offer warranty</h2>
                 <p className="about-text">
@@ -32,7 +32,7 @@ export default function AboutUs() {
             <img src="../Media/Beast Galaxy.jpg" className="about-img" />
         </section>
     
-        <section className="section thank-you">
+        <section className="about-section thank-you">
             <div className="title-text">
                 <h2 className="title">Thank You!</h2>
                 <p className="about-text">
@@ -43,7 +43,9 @@ export default function AboutUs() {
                     sincerily, the BLDG team.
                 </p>
             </div>
-            <img src="../Media/bulldog.jpg" className="about-img" />
+            <div>
+                <dotlottie-player src="https://lottie.host/be5dc02b-06ad-4b49-a503-86e106c8b05b/3ZTWb84mRz.json" background="transparent" speed="1" style={{width: "300px",height: "300px"}}  loop autoplay></dotlottie-player>
+            </div>
         </section>
     
     </main>
