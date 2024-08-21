@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import Cursor from "./Cursor.jsx";
 import Navbar from "./NavBar.jsx";
+import Menu from './Menu.jsx';
 import Cart from "./Cart.jsx";
 import Footer from "./Footer.jsx";
 import AboutUs from "./pages/about us/about us.jsx";
@@ -22,7 +23,8 @@ function App() {
     <>
       <Cursor />
       <Navbar />
-      <Cart />    
+      <Menu />
+      <Cart />   
       <div className="container">
         <Routes>
           <Route path="/" element={<Home />} />

@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const session = require('express-session');
 const crypto = require('crypto');
@@ -8,10 +7,22 @@ const helmet = require('helmet');
 const rateLimit = require("express-rate-limit");
 const bodyParser = require('body-parser');
 const path = require('path');
+const axios = require('axios');
+const mongoose = require('mongoose');
 
+// Initialize Express
+const app = express();
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
+// Import the Review model
+const Review = require('./models/Review');
 
 // Update the static file serving middleware
-app.use('/Server/Media', express.static(path.join(__dirname, 'Server', 'Media')));
+app.use('/Media', express.static(path.join(__dirname, 'Media')));
 
 // Enhanced security headers
 app.use(helmet());
@@ -24,136 +35,226 @@ app.use(bodyParser.text({ type: 'text/plain' }));
 
 // Session management
 app.use(session({
-  secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
-  resave: false,
-  saveUninitialized: true,
-  cookie: { 
-    secure: process.env.NODE_ENV === 'production', 
-    httpOnly: true,
-    sameSite: 'strict'
-  }
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
+    resave: false,
+    saveUninitialized: true,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', 
+        httpOnly: true,
+        sameSite: 'strict'
+    }
 }));
 
 // CORS configuration
 const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://checkout.stripe.com'];
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+    origin: function(origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
 }));
 
-app.use('/Media', express.static(path.join(__dirname, 'Media')));
+// FedEx API configuration
+const FEDEX_API_URL = 'https://apis-sandbox.fedex.com';
+const FEDEX_CLIENT_ID = process.env.FEDEX_CLIENT_ID;
+const FEDEX_CLIENT_SECRET = process.env.FEDEX_CLIENT_SECRET;
 
-// Rate limiting
+// Function to get FedEx access token
+async function getFedExAccessToken() {
+    try {
+        const response = await axios.post(`${FEDEX_API_URL}/oauth/token`, 
+            `grant_type=client_credentials&client_id=${FEDEX_CLIENT_ID}&client_secret=${FEDEX_CLIENT_SECRET}`,
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+        );
+        return response.data.access_token;
+    } catch (error) {
+        console.error('Error getting FedEx access token:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
+
+// FedEx tracking endpoint
+app.post('/track', async (req, res) => {
+    try {
+        const { trackingNumber } = req.body;
+        const accessToken = await getFedExAccessToken();
+        const trackingResponse = await axios.get(`${FEDEX_API_URL}/track/v1/trackingnumbers`, {
+            params: { trackingNumber },
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
+        res.json(trackingResponse.data);
+    } catch (error) {
+        console.error('Error fetching tracking data:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to fetch tracking data' });
+    }
+});
+
+// API rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000, 
+    max: 100, 
+    message: "Too many requests from this IP, please try again after 15 minutes"
 });
-app.use("/create-checkout-session", limiter);
+app.use(limiter);
 
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+// Reviews API routes
 
-// Move this to a database in a real application
-const BASE_URL = 'https://your-domain.com'; // Replace with your actual domain
-
-const storeItems = new Map([
-  [1, { priceInCents: 64999, name: "Smoother", image: `/Server/Media/smoother/smoother1.jpg` }],
-  [2, { priceInCents: 99999, name: "Beast", image: `/Server/Media/beast/beast1.jpg` }],
-  [3, { priceInCents: 129999, name: "Terminator", image: `/Server/Media/terminator/terminator1.jpg` }],
-  [4, { priceInCents: 199999, name: "Spaceship", image: `/Server/Media/spaceship/spaceship1.jpg` }]
-]);
-
-app.post('/api/purchase', (req, res) => {
-    const productId = req.body.product_id;
-    
-    // Check if product ID is present
-    if (!productId) {
-        return res.status(400).send({ error: 'Product ID is required' });
+// Get all reviews
+app.get('/api/reviews', async (req, res) => {
+    try {
+        const reviews = await Review.find();
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch reviews' });
     }
-
-    // Process the purchase logic here
-    console.log('Product ID received:', productId);
-
-    // Send a success response
-    res.status(200).send({ message: 'Purchase successful', product_id: productId });
 });
 
-
-app.post("/create-checkout-session", async (req, res) => {
+// Add a new review
+app.post('/api/reviews', async (req, res) => {
   try {
-    // Validate input
-    if (!Array.isArray(req.body.items) || req.body.items.length === 0) {
-      return res.status(400).json({ error: "Invalid items array" });
-    }
-
-    const lineItems = req.body.items.map(item => {
-      const productId = parseInt(item.productId, 10);
-      const storeItem = storeItems.get(productId);
-      if (!storeItem) {
-        throw new Error(`Invalid product id: ${productId}`);
+      // Make sure the body contains all necessary fields
+      const { title, content, rating, product } = req.body;
+      if (!title || !content || !rating || !product) {
+          return res.status(400).json({ error: 'Missing required fields' });
       }
-      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
-        throw new Error(`Invalid quantity for product id: ${productId}`);
-      }
-      return {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: storeItem.name,
-            images: [`${req.protocol}://${req.get('host')}${storeItem.image}`],
-          },
-          unit_amount: storeItem.priceInCents,
-        },
-        quantity: item.quantity,
-      };
-    });
 
-    const session = await stripe.checkout.sessions.create({
-      
-      mode: "payment",
-      line_items: lineItems,
-      success_url: `${process.env.CLIENT_URL}/Client/src/index.html`,
-      cancel_url: `${process.env.CLIENT_URL}/Client/src/index.html`,
-      
-    });
+      const newReview = new Review({
+          title,
+          content,
+          rating,
+          productName: product, // Ensure this matches the schema
+          reviewType: 'product' // or 'website' based on your logic
+      });
 
-    // Store the Stripe session ID in the Express session
-    req.session.stripeSessionId = session.id;
-
-    res.json({ url: session.url });
-
-  } catch (e) {
-    console.error('Checkout error:', e);
-    res.status(500).json({ error: "An error occurred during checkout" });
-  }
-});
-
-// Webhook to handle successful payments
-app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      await newReview.save();
+      res.status(201).json(newReview);
   } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
+      console.error('Failed to save review:', err.message);
+      res.status(400).json({ error: 'Failed to save review' });
   }
-
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    // Fulfill the order
-    // This is where you would update your database, send confirmation emails, etc.
-    console.log('Payment successful for session:', session.id);
-  }
-
-  res.json({received: true});
 });
 
+// Update usefulness
+app.post('/api/reviews/usefulness', async (req, res) => {
+  const { reviewId, userUUID, type } = req.body;
+
+  if (!userUUID || !type || !['like', 'dislike', 'remove'].includes(type)) {
+      return res.status(400).json({ error: 'Invalid input' });
+  }
+
+  try {
+      const review = await Review.findById(reviewId);
+      if (!review) {
+          return res.status(404).json({ error: 'Review not found' });
+      }
+
+      const currentVote = review.userVotes.get(userUUID);
+
+      if (type === 'remove') {
+          // Remove vote
+          if (!currentVote) {
+              return res.status(400).json({ error: 'No vote to remove' });
+          }
+
+          if (currentVote === 'like') {
+              review.thumbsUp -= 1;
+          } else if (currentVote === 'dislike') {
+              review.thumbsDown -= 1;
+          }
+
+          review.userVotes.delete(userUUID);
+
+      } else if (currentVote) {
+          // Toggle vote
+          if (currentVote === type) {
+              // If same vote, remove vote
+              if (type === 'like') {
+                  review.thumbsUp -= 1;
+              } else if (type === 'dislike') {
+                  review.thumbsDown -= 1;
+              }
+
+              review.userVotes.delete(userUUID);
+          } else {
+              // Switch from like to dislike or vice versa
+              if (currentVote === 'like') {
+                  review.thumbsUp -= 1;
+              } else if (currentVote === 'dislike') {
+                  review.thumbsDown -= 1;
+              }
+
+              if (type === 'like') {
+                  review.thumbsUp += 1;
+              } else if (type === 'dislike') {
+                  review.thumbsDown += 1;
+              }
+
+              review.userVotes.set(userUUID, type);
+          }
+
+      } else {
+          // New vote
+          if (type === 'like') {
+              review.thumbsUp += 1;
+          } else if (type === 'dislike') {
+              review.thumbsDown += 1;
+          }
+
+          review.userVotes.set(userUUID, type);
+      }
+
+      const updatedReview = await review.save();
+      res.json(updatedReview);
+  } catch (err) {
+      res.status(500).json({ error: 'Failed to update review usefulness' });
+  }
+});
+
+
+
+
+app.post('/api/reviews/:id/vote', async (req, res) => {
+  try {
+      const { voteType } = req.body;
+      const review = await Review.findById(req.params.id);
+
+      if (!review) {
+          return res.status(404).json({ error: 'Review not found' });
+      }
+
+      if (voteType === 'like') {
+          review.thumbsUp += 1;
+      } else if (voteType === 'dislike') {
+          review.thumbsDown += 1;
+      } else {
+          return res.status(400).json({ error: 'Invalid vote type' });
+      }
+
+      await review.save();
+      res.json({ thumbsUp: review.thumbsUp, thumbsDown: review.thumbsDown });
+  } catch (err) {
+      res.status(500).json({ error: 'Failed to update vote' });
+  }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'An internal error occurred' });
+});
+
+// Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+

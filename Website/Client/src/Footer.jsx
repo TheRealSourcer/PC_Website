@@ -70,7 +70,7 @@ export default function Footer() {
                             <h3 className="expandable-title">Support <span className="expand-icon">+</span></h3>
                             <ul className="Support link-column">
                                 <li><Link to="/Reviews" className="footer-link">Reviews</Link></li>
-                                <li><Link to="/Why The BLDG" className="footer-link">Why BLDG</Link></li>
+                                <li><Link to="/About Us" className="footer-link">Why The BLDG</Link></li>
                                 <li><a onClick={handleTrackOrder} className="footer-link">Track Order</a></li>
                                 <li><Link to="/BLDG Upgrader" className="footer-link">BLDG Upgrader</Link></li>
                             </ul>

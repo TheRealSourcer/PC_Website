@@ -8,7 +8,7 @@ import SmootherImage4 from "../../assets/smoother/smoother4.jpg";
 
 import BeastImage1 from "../../assets/beast/beast1.jpg";
 import BeastImage2 from "../../assets/beast/beast2.jpg";
-import BeastImage3 from "../../assets/beast/beast3.jpg";
+import BeastImage3 from "../../assets/beast/beast3.jpeg";
 import BeastImage4 from "../../assets/beast/beast4.jpg";
 
 import TerminatorImage1 from "../../assets/terminator/terminator1.jpg";

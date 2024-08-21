@@ -34,7 +34,7 @@
 
 .product-search-section {
     width: 100%;
-    margin-bottom: 1000px;
+    margin-bottom: 128px;
 }
 
 /* Header styles */
@@ -119,6 +119,8 @@
 
 .tracking-title {
     margin-top: 144px;
+    margin-bottom: 32px;
+    font-size: 64px;
 }
 
 #orderForm {
@@ -191,4 +193,127 @@
         width: 100% !important;
         height: auto !important;
     }
+}
+
+.products-to-search {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product-card {
+    width: 300px;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    margin: 10px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.product-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.product-card a {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+.product-card a:first-of-type {
+    background-color: #28a745; /* Green for the "Contact Us" button */
+    color: white;
+}
+
+.product-card a:first-of-type:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.product-card a:last-of-type {
+    background-color: #17a2b8; /* Blue for the "Common Solutions" button */
+    color: white;
+}
+
+.product-card a:last-of-type:hover {
+    background-color: #138496; /* Darker blue on hover */
+}
+
+.contact-section {
+    margin-top: 128px;
+}
+
+.contact-section-title {
+    font-size: 54px;
+    text-align: center;
+}
+
+#icon-support-container a {
+    color: rgb(255, 255, 255);
+}
+
+.contact-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.info-cards-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.info-card {
+    background-color: rgb(88, 88, 88);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    padding: 20px;
+    height: 400px;
+}
+
+.info-card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 10px;
+}
+
+.info-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.info-card-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.info-card-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.info-card-button:hover {
+    background-color: #0056b3;
 }

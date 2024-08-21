@@ -23,19 +23,35 @@ export default function NavBar() {
         }
     }, [location, navigate]);
 
+    // Define the toggleMenu function inside the component
+    function toggleMenu() {
+        const menu = document.querySelector(".menu");
+        const isMenuVisible = menu.getAttribute('aria-hidden') === 'false';
+
+        if (isMenuVisible) {
+            menu.classList.remove('menu-visible');
+            menu.classList.add('menu-hidden');
+            menu.setAttribute('aria-hidden', 'true');
+        } else {
+            menu.classList.remove('menu-hidden');
+            menu.classList.add('menu-visible');
+            menu.setAttribute('aria-hidden', 'false');
+        }
+    }
+
     return (
         <nav className="navigation">
             <div className="nav-left">
-                <i className="fa-solid fa-bars bars"></i>
+                <i className="fa-solid fa-bars bars menu-icon" onClick={toggleMenu}></i>
             </div>
             <div className="nav-center">
-                    <Link to="/" className="dream-pc navBtn">Home</Link>
-                    <a href="" className="navBtn border-nav-btn" onClick={handleBestSellersClick}>Best Sellers</a>
+                <Link to="/" className="dream-pc navBtn">Home</Link>
+                <a href="" className="navBtn border-nav-btn" onClick={handleBestSellersClick}>Best Sellers</a>
                 <Link to="/" className="logo-container">
                     <img src={LogoImage} alt="Logo" className="logo" />
                 </Link>
-                    <Link to="/Support" className="navBtn border-nav-btn">Support</Link>
-                    <Link to="/About Us" className="navBtn border-nav-btn">About Us</Link>
+                <Link to="/Support" className="navBtn border-nav-btn">Support</Link>
+                <Link to="/About Us" className="navBtn border-nav-btn">About Us</Link>
             </div>
             <div className="nav-right">
                 <i className="fa-solid fa-cart-shopping cart-icon"></i>

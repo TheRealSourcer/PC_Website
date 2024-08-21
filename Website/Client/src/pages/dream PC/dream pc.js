@@ -5,7 +5,7 @@ const products = {
         description: "Unleash Your Gaming Potential Without Breaking the Bank! <br>Introducing our latest budget-friendly gaming PC, designed for gamers who demand performance without the hefty price tag. This low-end gaming powerhouse is perfect for diving into the world of gaming, whether you're exploring vast open worlds, competing in intense multiplayer battles, or embarking on epic quests.",
         price: 649.99,
         features: ["4K Resolution", "Smart Features", "HDR"],
-        imageUrl1: "../Media/smoother/smoother1.jpg",  // Update this path to match your actual image location
+        imageUrl1: "../Media/smoother/smoother1.jpg",
         imageUrl2: "../Media/smoother/smoother2.jpg",
         imageUrl3: "../Media/smoother/smoother3.jpg",
         imageUrl4: "../Media/smoother/smoother4.jpg"
@@ -16,7 +16,7 @@ const products = {
         description: "Elevate Your Gaming Experience with Our Next-Level Gaming PC! <br>Step up your game with our new gaming PC, crafted for gamers who seek a perfect balance of performance, quality, and affordability. Whether you're aiming for high scores, exploring new worlds, or streaming your gameplay, this gaming rig is built to deliver an exceptional experience - Take the next step in your gaming journey and secure your system now!",
         price: 999.99,
         features: ["100% Cotton", "Machine Washable", "Various Colors"],
-        imageUrl1: "../Media/beast/beast1.jpg",  // Update this path to match your actual image location
+        imageUrl1: "../Media/beast/beast1.jpg",
         imageUrl2: "../Media/beast/beast2.png",
         imageUrl3: "../Media/beast/beast3.png",
         imageUrl4: "../Media/beast/beast4.png"
@@ -27,7 +27,7 @@ const products = {
         description: "Enhance Your Gaming Experience with Our Advanced Gaming PC! <br>Take your gaming to new heights with our advanced gaming PC, designed for enthusiasts who seek impressive performance and cutting-edge technology. Whether you're conquering the latest AAA titles, streaming your gameplay, or creating content, this rig delivers the power and precision needed to excel.",
         price: 1299.99,
         features: ["Genuine Leather", "3-Seater", "Reclining Function"],
-        imageUrl1: "../Media/terminator/terminator1.jpg",  // Update this path to match your actual image location
+        imageUrl1: "../Media/terminator/terminator1.jpg",
         imageUrl2: "../Media/terminator/terminator2.jpg",
         imageUrl3: "../Media/terminator/terminator3.png",
         imageUrl4: "../Media/terminator/terminator4.png"
@@ -38,7 +38,7 @@ const products = {
         description: "Command the Game with Our Ultimate Gaming PC! <br>Introducing the pinnacle of gaming technology: our Ultimate Gaming PC. Designed for the most demanding gamers and tech enthusiasts, this machine combines unrivaled power, cutting-edge features, and exceptional build quality. Whether you're playing the latest AAA titles, streaming in 4K, or creating high-end content, this rig delivers an unparalleled experience.",
         price: 1999.99,
         features: ["Genuine Leather", "3-Seater", "Reclining Function"],
-        imageUrl1: "../Media/spaceship/spaceship1.jpg",  // Update this path to match your actual image location
+        imageUrl1: "../Media/spaceship/spaceship1.jpg",
         imageUrl2: "../Media/spaceship/spaceship2.png",
         imageUrl3: "../Media/spaceship/spaceship3.png",
         imageUrl4: "../Media/spaceship/spaceship4.png"

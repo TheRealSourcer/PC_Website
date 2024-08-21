@@ -75,6 +75,7 @@ body {
 
 #root {
     min-height: 100vh;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -214,6 +215,49 @@ main {
     color: #d138ff;
 }
 
+
+/*Menu*/
+.menu {
+    display: none; /* Ensure the menu is a flex container */
+    flex-direction: column;
+    color: #fff;
+    background-color: rgb(20, 20, 20);
+    box-shadow: -10px 0px 100px rgb(0, 0, 0);
+    width: 500px;
+    padding: 20px; 
+    position: fixed;
+    right: 0;
+    top: 80px;
+    bottom: 0;
+    z-index: 150;
+    transform: translateX(110%); /* Initially hide the menu */
+    transition: transform 0.3s ease; /* Smooth transition for transform */
+    
+}
+
+.menu-visible {
+    transform: translateX(0); /* Show the menu */
+}
+
+.menu-hidden {
+    transform: translateX(110%); /* Initially hide the menu */
+}
+
+.menu-title {
+    font-style: normal;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    gap: 10px;
+}
+
+.menu-nav-button {
+    color: white;
+    text-decoration: none;
+}
 
 /*Cart*/
 .cart {
@@ -629,6 +673,9 @@ main {
         position: 0;
     }
 
+    .menu {
+        display: flex;
+    }
 
     /*Footer*/
     .footer {
