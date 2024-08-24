@@ -1,20 +1,23 @@
-main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
+
 
 .about-section {
-    min-height: 105vh;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     padding: 50px;
     box-sizing: border-box;
-    
+    min-height: 80vh;
+    background-color: rgb(32, 32, 32);
+    color: #fff;
+    text-shadow: rgb(50, 50, 50) 0 0 2px;
+    gap: 20px;
 }
 
+.about-us-animation {
+    height: 10%;
+    width: 10%;
+}
 
 .mission, .performance, .warranty, .thank-you {
     background-size: cover;
@@ -22,10 +25,8 @@ main {
     background-repeat: no-repeat;
 }
 
-.mission { background-image: url(../Media/about-us-background-1.svg); }
-.performance { background-image: url(../Media/about-us-background-2.svg); }
-.warranty { background-image: url(../Media/about-us-background-3.svg); }
-.thank-you { background-image: url(../Media/about-us-background-4.svg); }
+.performance { background-image: url(../../assets/about-us/about-us-background-3.svg); }
+.thank-you { background-image: url(../../assets/about-us/about-us-background-4.svg); }
 
 .title-text {
     
@@ -36,7 +37,6 @@ main {
 
 .title {
     display: inline;
-    color: white;
     display: block;
     height: 58px;
     font-size: 50px;
@@ -59,6 +59,28 @@ main {
     object-fit: cover;
     border-radius: 10px;
     
+}
+
+.about-hero {
+    color: #fff;
+    background-image: url("../../assets/plans_and_design_to_build_the_perfect_pc_drawn_to_a_piece_of_paper_on_a_single_dark_wood_desk_planning_how_to_make_them_better_in_a_90_degree_angle.jpeg");
+    background-size: cover;
+    background-position: center;
+    min-height: 50vh;
+    background-attachment: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-style: normal;
+}
+
+.hero-title {
+    font-size: 48px;
+}
+
+.hero-message {
+
 }
 
 @media (max-width: 768px) {

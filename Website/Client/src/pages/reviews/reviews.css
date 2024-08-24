@@ -229,6 +229,7 @@
   border-radius: 6px;
   transition: all 1s ease;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .add-review:hover {
@@ -241,6 +242,7 @@
 
 
 .new-review-container {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -298,7 +300,7 @@
 .reviews-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 20px;
@@ -308,8 +310,3 @@
   flex-grow: 1;
   margin-right: 20px;
 }
-
-.add-review {
-  flex-shrink: 0;
-}
-

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useCart } from '../../CartContext';
 
 import SmootherImage1 from "../../assets/smoother/smoother1.jpg";
 import SmootherImage2 from "../../assets/smoother/smoother2.jpg";
@@ -75,6 +76,7 @@ export default function DreamPc() {
     const carouselRef = useRef(null);
     const dragStartX = useRef(0);
     const isDragging = useRef(false);
+    const { setCartItemCount } = useCart();  // Access cart context
 
     useEffect(() => {
         const productName = searchParams.get('product');
@@ -84,8 +86,6 @@ export default function DreamPc() {
             console.error('No valid product specified');
         }
     }, [searchParams]);
-
-    
 
     const nextImage = () => {
         showSlide((currentImageIndex + 1) % 4);
@@ -129,6 +129,10 @@ export default function DreamPc() {
         } else {
             showSlide(currentImageIndex);
         }
+    };
+
+    const handleCartButtonClick = () => {
+        setCartItemCount(prevCount => prevCount + 1);
     };
 
     if (!product) {
@@ -193,7 +197,9 @@ export default function DreamPc() {
                             <li key={index}>{feature}</li>
                         ))}
                     </ul>
-                    <button className="cart-button"><i className="fa-solid fa-cart-shopping cart-button-icon"></i></button>
+                    <button className="cart-button" onClick={handleCartButtonClick}>
+                        <i className="fa-solid fa-cart-shopping cart-button-icon"></i>
+                    </button>
                 </div>
             </div>
         </main>

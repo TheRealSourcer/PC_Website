@@ -74,8 +74,7 @@ body {
 }
 
 #root {
-    min-height: 100vh;
-    height: fit-content;
+    min-height: 100vh; /*height off to work on mobile*/
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -218,19 +217,20 @@ main {
 
 /*Menu*/
 .menu {
+    box-sizing: border-box;
     display: none; /* Ensure the menu is a flex container */
     flex-direction: column;
     color: #fff;
     background-color: rgb(20, 20, 20);
     box-shadow: -10px 0px 100px rgb(0, 0, 0);
-    width: 500px;
+    width: 70%;
     padding: 20px; 
     position: fixed;
-    right: 0;
+    left: 0;
     top: 80px;
     bottom: 0;
     z-index: 150;
-    transform: translateX(110%); /* Initially hide the menu */
+    transform: translateX(-110%); /* Initially hide the menu */
     transition: transform 0.3s ease; /* Smooth transition for transform */
     
 }
@@ -240,23 +240,39 @@ main {
 }
 
 .menu-hidden {
-    transform: translateX(110%); /* Initially hide the menu */
+    transform: translateX(-110%); /* Initially hide the menu */
+}
+
+.menu-title-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .menu-title {
+    width: min-content;
     font-style: normal;
+    font-size: 50px;
+    margin-bottom: 16px;
+}
+
+.close-menu-icon{
+    color: #fff;
+    font-size: 24px;
 }
 
 .nav-menu {
     display: flex;
     flex-direction: column;
-    height: 500px;
-    gap: 10px;
+    gap: 12px;
+    font-style: normal;
 }
 
 .menu-nav-button {
     color: white;
     text-decoration: none;
+    font-size: 20px;
+    margin-left: 5px;
 }
 
 /*Cart*/
@@ -622,6 +638,7 @@ main {
  
 /*Smaller size adaptation*/
 @media (max-width: 1409px) {
+    /*Footer*/
     .flex-footer-container {
         justify-content: center;
     }
@@ -630,12 +647,16 @@ main {
 /* Even smaller size adaptation*/
 @media (max-width: 769px) {
     /*General*/
+    #root {
+        min-height: auto;
+    }
+
     ::-webkit-scrollbar { display: none; }
 
     .cursor {
         display: none;
     }
-
+    
 
     /*Navbar*/
     .navigation {
@@ -759,4 +780,32 @@ main {
         margin: 0px auto;
         display: block;
     }
+}
+
+.cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.hidden {
+    display: none;
 }

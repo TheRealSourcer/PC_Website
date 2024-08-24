@@ -1,12 +1,11 @@
 .main-dream-pc {
-    font-family: 'Arial Black' , sans-serif;
+    font-family: 'Arial Black', sans-serif;
     display: flex;
     min-width: 100vw;
     flex-direction: row;
     min-height: 105vh;
     background-color: black;
     color: #ffffff;
-    
 }
 
 .section {
@@ -29,13 +28,10 @@
     font-size: 54px;
     letter-spacing: 0.1cap;
     backdrop-filter: blur(10px);
-    
     text-align: center;
     margin-bottom: 50px;
     margin-top: 50px;
 }
-
-
 
 .features {
     min-width: 300px;
@@ -83,7 +79,6 @@
     border-radius: 50%;
 }
 
-/* Create dotted line effect */
 .slider::before {
     content: '';
     position: absolute;
@@ -119,17 +114,6 @@
     inset: 0 0 0 0;
 }
 
-#product-image {
-    width: 500px;
-    height: 400px; /* Set a fixed height */
-    object-fit: cover; /* This will cover the area, potentially cropping the image */ /* Centers the image within the container */
-    display: block;
-    margin-bottom: 80px;
-    background-color: #4a0e4e;
-    border-radius: 30px;
-    position: absolute;
-}
-
 .carousel {
     position: relative;
     width: 500px;
@@ -141,17 +125,21 @@
 .carousel-inner {
     display: flex;
     transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
 }
 
 .carousel-item {
     flex: 0 0 100%;
     width: 100%;
+    height: 100%; /* Ensure the height is defined */
 }
 
 .product-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .carousel-control {
@@ -253,6 +241,7 @@
         width: 100%;
         max-width: 300px;
     }
+
     #product-description {
         margin: 60px 0 0 0;
         box-sizing: border-box;

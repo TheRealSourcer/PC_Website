@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import useUserUUID from './hooks/useUserUUID';
 
+// Import your images
 import SmootherImage1 from "./assets/smoother/smoother1.jpg";
 import SmootherImage2 from "./assets/smoother/smoother2.jpg";
 import SmootherImage3 from "./assets/smoother/smoother3.jpg";
@@ -71,6 +73,9 @@ const products = {
 export default function Cart() {
     const [searchParams] = useSearchParams();
     const [product, setProduct] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
+    const [subtotal, setSubtotal] = useState(0);
+    const userUUID = useUserUUID();  // Use the custom hook
 
     useEffect(() => {
         const productName = searchParams.get('product');
@@ -82,314 +87,106 @@ export default function Cart() {
     }, [searchParams]);
 
     useEffect(() => {
-        if (product) {
-            const cartItemsContainer = document.querySelector(".products");
-            const cartTotal = document.getElementById('cart-total');
-            const addToCartButton = document.querySelector(".cart-button");
-
-            const updateCart = (category) => {
-                const product = products[category];
-                if (!product) return;
-
-                const existingProduct = cartItemsContainer.querySelector(`.product-on-cart[data-name="${product.name}"]`);
-                
+        const handleCartButtonClick = () => {
+            if (product) {
+                const existingProduct = cartItems.find(item => item.id === product.id);
                 if (existingProduct) {
-                    const quantityInput = existingProduct.querySelector('input[type="number"]');
-                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    updateQuantity(existingProduct.id, existingProduct.quantity + 1);
                 } else {
-                    const productHTML = `
-                        <div class="product-on-cart" data-name="${product.name}">
-                            <img class="cart-item-image" src="${product.imageUrl1}">
-                            <div>
-                                <h2>${product.name}</h2>
-                                <p>Price: $${product.price.toFixed(2)}</p>
-                                <button class="remove-button" data-id="${product.id}">remove</button>
-                            </div>
-                            <button class="subtract-from-cart" data-id="${product.id}" data-name="${product.name}">-</button>
-                            <input type="number" id="quantity" min="0" value="1">
-                            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">+</button>
-                        </div>`;
-                    cartItemsContainer.insertAdjacentHTML('beforeend', productHTML);
-                    attachEventListeners();
+                    setCartItems([...cartItems, { ...product, quantity: 1 }]);
                 }
-
-                updateSubtotal();
-                updateCheckoutButtonState();
-            };
-
-            const updateSubtotal = () => {
-                let total = 0;
-                const quantityInputs = cartItemsContainer.querySelectorAll('input[type="number"]');
-                quantityInputs.forEach(input => {
-                    const productDiv = input.closest('.product-on-cart');
-                    const price = parseFloat(productDiv.querySelector('.add-to-cart').getAttribute('data-price'));
-                    const quantity = parseInt(input.value);
-                    total += price * quantity;
-                });
-                cartTotal.textContent = total.toFixed(2);
-            };
-
-            const attachEventListeners = () => {
-                const addButtons = cartItemsContainer.querySelectorAll('.add-to-cart');
-                const subtractButtons = cartItemsContainer.querySelectorAll('.subtract-from-cart');
-                const quantityInputs = cartItemsContainer.querySelectorAll('input[type="number"]');
-                const removeButtons = cartItemsContainer.querySelectorAll('.remove-button');
-
-                addButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const input = button.previousElementSibling;
-                        input.value = parseInt(input.value) + 1;
-                        updateSubtotal();
-                        updateCheckoutButtonState();
-                    });
-                });
-
-                subtractButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const input = button.nextElementSibling;
-                        input.value = Math.max(0, parseInt(input.value) - 1);
-                        updateSubtotal();
-                        updateCheckoutButtonState();
-                    });
-                });
-
-                quantityInputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        input.value = Math.max(0, parseInt(input.value) || 0);
-                        updateSubtotal();
-                        updateCheckoutButtonState();
-                    });
-                });
-
-                removeButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const productId = button.getAttribute('data-id');
-                        removeFromCart(productId);
-                        updateSubtotal();
-                        updateCheckoutButtonState();
-                    });
-                });
-            };
-
-            if (addToCartButton) {
-                addToCartButton.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    const category = searchParams.get('product');
-                    if (category && products[category]) {
-                        updateCart(category);
-                    }
-                });
             }
+        };
 
-            // Call this after attaching event listeners
-            updateCheckoutButtonState();
+        // Add event listener for the cart button
+        const cartButton = document.querySelector('.cart-button');
+        if (cartButton) {
+            cartButton.addEventListener('click', handleCartButtonClick);
         }
-    }, [product, searchParams]);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            if (cartButton) {
+                cartButton.removeEventListener('click', handleCartButtonClick);
+            }
+        };
+    }, [product, cartItems]);
+
+    useEffect(() => {
+        const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        setSubtotal(total);
+    }, [cartItems]);
+
+    const updateQuantity = (id, quantity) => {
+        setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity } : item));
+    };
+
+    const removeItem = (id) => {
+        setCartItems(cartItems.filter(item => item.id !== id));
+    };
+
+    const handleCheckout = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    items: [
+                        {
+                            id: '2',
+                            name: 'Beast',
+                            price: 999.99,
+                            quantity: 1
+                        }
+                    ],
+                    userUUID: '96e68dab-867a-4c3e-9b81-b16fc84e5141' // Replace with actual UUID
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                // Redirect to Stripe Checkout
+                const stripe = window.Stripe('pk_test_51PbjzsAvZVlzPgF8Wtv9GAhGKbDJYS26DUOXtqEJ8MeM7fU5jQYuIS4G2BevkamozcYBOOYjbWCFmNqSDJGoFcGp00LaSzm6UA'); // Replace with your Stripe public key
+                stripe.redirectToCheckout({ sessionId: data.id });
+            } else {
+                console.error('Error during checkout:', data.error);
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
+        }
+    };
 
     return (
-        <div className="cart cart-hidden" aria-hidden="true">
+        <div className="cart">
             <h1 className="cart-title">Shopping Cart</h1>
-            <div className="products"></div>
+            <div className="products">
+                {cartItems.map(item => (
+                    <div key={item.id} className="product-on-cart">
+                        <img className="cart-item-image" src={item.imageUrl1} alt={item.name} />
+                        <div>
+                            <h2>{item.name}</h2>
+                            <p>Price: ${item.price.toFixed(2)}</p>
+                            <button className="remove-button" onClick={() => removeItem(item.id)}>Remove</button>
+                        </div>
+                        <button className="subtract-from-cart" onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}>-</button>
+                        <input
+                            id="quantity"
+                            type="number"
+                            value={item.quantity}
+                            onChange={e => updateQuantity(item.id, Math.max(0, parseInt(e.target.value) || 0))}
+                        />
+                        <button className="add-to-cart" onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                    </div>
+                ))}
+            </div>
             <div className="buying-info">
-                <p className="info">Subtotal: $<span id="cart-total">0</span></p>
-                <p className="info">Shipping: $<span id="cart-shipping">0</span></p>
-                <p className="info">Tax: $<span id="cart-tax">0</span></p>
-                <button className="checkout-button" disabled>CHECKOUT</button>  
+                <p className="info">Subtotal: ${subtotal.toFixed(2)}</p>
+                <p className="info">Shipping: Calculated at Checkout</p>
+                <p className="info">Tax: Calculated at Checkout</p>
+                <button className="checkout-button" disabled={cartItems.length === 0} onClick={handleCheckout}>CHECKOUT</button>
             </div>
         </div>
     );
 }
-
-// Save cart to local storage
-function saveCart(cartItems) {
-    localStorage.setItem('shoppingCart', JSON.stringify(cartItems));
-}
-
-// Load cart from local storage
-function loadCart() {
-    const savedCart = localStorage.getItem('shoppingCart');
-    return savedCart ? JSON.parse(savedCart) : [];
-}
-
-// Attach event listeners for cart items
-function attachEventListeners() {
-    const addButtons = document.querySelectorAll('.add-to-cart');
-    const subtractButtons = document.querySelectorAll('.subtract-from-cart');
-    const quantityInputs = document.querySelectorAll('input[type="number"]');
-    const removeButtons = document.querySelectorAll('.remove-button');
-
-    addButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
-            const currentQuantity = loadCart().find(item => item.id === productId)?.quantity || 0;
-            updateQuantity(productId, currentQuantity + 1);
-        });
-    });
-
-    subtractButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
-            const currentQuantity = loadCart().find(item => item.id === productId)?.quantity || 0;
-            updateQuantity(productId, Math.max(1, currentQuantity - 1));
-        });
-    });
-
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', () => {
-            const productId = input.closest('.product-on-cart').querySelector('.add-to-cart').getAttribute('data-id');
-            updateQuantity(productId, Math.max(1, parseInt(input.value) || 1));
-        });
-    });
-
-    removeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
-            removeFromCart(productId);
-        });
-    });
-}
-
-// Update cart UI
-function updateCartUI(cartItems) {
-    const cartItemsContainer = document.querySelector(".products");
-    cartItemsContainer.innerHTML = ''; // Clear existing items
-
-    let total = 0;
-
-    cartItems.forEach(item => {
-        const productHTML = `
-            <div class="product-on-cart" data-name="${item.name}">
-                <img class="cart-item-image" src="${item.imageUrl1}">
-                <div>
-                    <h2>${item.name}</h2>
-                    <p>Price: $${item.price.toFixed(2)}</p>
-                    <button class="remove-button" data-id="${item.id}">remove</button>
-                </div>
-                <button class="subtract-from-cart" data-id="${item.id}" data-name="${item.name}">-</button>
-                <input type="number" id="quantity" min="1" value="${item.quantity}">
-                <button class="add-to-cart" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">+</button>
-            </div>`;
-        cartItemsContainer.insertAdjacentHTML('beforeend', productHTML);
-        total += item.price * item.quantity;
-    });
-
-    document.getElementById('cart-total').textContent = total.toFixed(2);
-    attachEventListeners();
-    updateCheckoutButtonState();
-}
-
-// Update item quantity
-function updateQuantity(productId, newQuantity) {
-    let cartItems = loadCart();
-    const item = cartItems.find(item => item.id === productId);
-    if (item) {
-        item.quantity = Math.max(0, newQuantity);
-        saveCart(cartItems);
-        updateCartUI(cartItems);
-    }
-}
-
-// Remove item from cart
-function removeFromCart(productId) {
-    let cartItems = loadCart();
-    cartItems = cartItems.filter(item => item.id !== productId);
-    saveCart(cartItems);
-    updateCartUI(cartItems);
-}
-
-// Toggle cart visibility
-function toggleCart() {
-    const cart = document.querySelector(".cart");
-    const isCartVisible = cart.getAttribute('aria-hidden') === 'false';
-
-    if (isCartVisible) {
-        cart.classList.remove('cart-visible');
-        cart.classList.add('cart-hidden');
-        cart.setAttribute('aria-hidden', 'true');
-    } else {
-        cart.classList.remove('cart-hidden');
-        cart.classList.add('cart-visible');
-        cart.setAttribute('aria-hidden', 'false');
-    }
-}
-
-// Initialize cart functionality
-function initializeCart() {
-    const cartIcon = document.querySelector(".cart-icon");
-
-    if (!cartIcon) {
-        console.error("Cart icon element not found. Retrying in 1 second.");
-        setTimeout(initializeCart, 1000);
-        return;
-    }
-
-    cartIcon.addEventListener("click", (event) => {
-        event.preventDefault();
-        toggleCart();
-    });
-
-    const cartItems = loadCart();
-    updateCartUI(cartItems);
-}
-
-// Update checkout button state
-function updateCheckoutButtonState() {
-    const checkoutButton = document.querySelector(".checkout-button");
-
-    if (!checkoutButton) {
-        console.error("Checkout button element not found. Retrying in 1 second.");
-        setTimeout(updateCheckoutButtonState, 1000);
-        return;
-    }
-
-    const cartItems = loadCart();
-    const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    
-    checkoutButton.disabled = totalQuantity === 0;
-    checkoutButton.style.opacity = totalQuantity === 0 ? "0.5" : "1";
-}
-
-// Initialize the cart and checkout button state when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initializeCart();
-    updateCheckoutButtonState();
-
-    const checkoutButton = document.querySelector(".checkout-button");
-    if (checkoutButton) {
-        checkoutButton.addEventListener("click", () => {
-            const cartItems = loadCart();
-            
-            // Calculate total quantity across all items
-            const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-            
-            if (totalQuantity === 0) {
-                alert("Please add at least one item to the cart before checking out.");
-                return;
-            }
-
-            const items = cartItems.filter(item => item.quantity > 0).map(item => ({
-                productId: item.id,
-                quantity: item.quantity
-            }));
-
-            fetch("http://localhost:3000/create-checkout-session", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ items }),
-            })
-            .then(res => {
-                if (res.ok) return res.json();
-                return res.json().then(json => Promise.reject(json));
-            })
-            .then(({ url }) => {
-                window.location = url;
-            })
-            .catch(e => {
-                console.error('Checkout error:', e.error);
-                alert('An error occurred during checkout. Please try again.');
-            });
-        });
-    }
-});

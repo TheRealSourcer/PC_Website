@@ -1,8 +1,11 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useCart } from './CartContext';
+import React from "react";
 import LogoImage from './assets/Logo.png';
 
 export default function NavBar() {
+    const { cartItemCount, setCartItemCount } = useCart();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -11,23 +14,20 @@ export default function NavBar() {
         navigate('/', { replace: true, state: { scrollTo: 'pc-container' } });
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         const { state } = location;
         if (state && state.scrollTo) {
             const element = document.getElementById(state.scrollTo);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
             }
-            // Clear the state to prevent re-scrolling on route changes
             navigate(location.pathname, { replace: true, state: {} });
         }
     }, [location, navigate]);
 
-    // Define the toggleMenu function inside the component
     function toggleMenu() {
         const menu = document.querySelector(".menu");
         const isMenuVisible = menu.getAttribute('aria-hidden') === 'false';
-
         if (isMenuVisible) {
             menu.classList.remove('menu-visible');
             menu.classList.add('menu-hidden');
@@ -38,6 +38,23 @@ export default function NavBar() {
             menu.setAttribute('aria-hidden', 'false');
         }
     }
+
+    function toggleCart() {
+        const cart = document.querySelector(".cart");
+        const isCartVisible = cart.getAttribute('aria-hidden') === 'false';
+        if (isCartVisible) {
+            cart.classList.remove('cart-visible');
+            cart.classList.add('cart-hidden');
+            cart.setAttribute('aria-hidden', 'true');
+        } else {
+            cart.classList.remove('cart-hidden');
+            cart.classList.add('cart-visible');
+            cart.setAttribute('aria-hidden', 'false');
+            setCartItemCount(0);  // Reset cart item count when the cart is opened
+        }
+    }
+
+    const displayCartItemCount = cartItemCount > 9 ? '9+' : cartItemCount;
 
     return (
         <nav className="navigation">
@@ -54,22 +71,14 @@ export default function NavBar() {
                 <Link to="/About Us" className="navBtn border-nav-btn">About Us</Link>
             </div>
             <div className="nav-right">
-                <i className="fa-solid fa-cart-shopping cart-icon"></i>
+                <div className="cart-container">
+                    <i className="fa-solid fa-cart-shopping cart-icon" onClick={toggleCart}></i>
+                    <div className={`cart-badge ${cartItemCount > 0 ? '' : 'hidden'}`}>
+                        {displayCartItemCount}
+                    </div>
+                </div>
             </div>
         </nav>
-    );
-}
-
-function CustomLink({ to, children, ...props }) {
-    const resolvedPath = useResolvedPath(to);
-    const isActive = useMatch({ path: resolvedPath.pathname, end: true });
-
-    return (
-        <li className={isActive ? "active" : ""}>
-            <Link to={to} {...props}>
-                {children}
-            </Link>
-        </li>
     );
 }
 

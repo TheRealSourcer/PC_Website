@@ -83,7 +83,7 @@ export default function Support() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trackingNumber = document.getElementById('orderNumber').value.trim();
-        
+    
         try {
             const response = await fetch('http://localhost:3000/track', {
                 method: 'POST',
@@ -92,13 +92,24 @@ export default function Support() {
                 },
                 body: JSON.stringify({ trackingNumber }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Failed to fetch tracking information');
             }
-
+    
             const data = await response.json();
-            setTrackingResult(data);
+            
+            // Extracting the necessary information from the response data
+            const trackResult = data?.output?.completeTrackResults?.[0]?.trackResults?.[0];
+            
+            const status = trackResult?.latestStatusDetail?.description || 'Status not available';
+            const estimatedDelivery = trackResult?.dateAndTimes?.find(d => d.type === 'ESTIMATED_DELIVERY')?.dateTime || 'No estimated delivery date available';
+            
+            setTrackingResult({
+                status,
+                estimatedDeliveryDate: estimatedDelivery,
+            });
+    
             setError(null);
         } catch (err) {
             setError('Error fetching tracking information. Please try again.');
@@ -125,18 +136,27 @@ export default function Support() {
                     </form>
                 </div>
                 <div className="products-to-search">
-                    {filteredProducts.map((product) => (
-                        <div key={product.id} className="product-card" style={{ backgroundImage: `url(${product.imageUrl1})` }}>
-                            <h3>{product.name}</h3>
-                            <a href = 'mailto:bldgtechnolgics@gmail.com' target="_blank">
-                                Contact Us
-                            </a>
-                            <a href = 'https://www.rednightconsulting.com/11-common-computer-issues-fix/' target="_blank">
-                                Common Solutions
-                            </a>
-                        </div>
-                    ))}
+    {filteredProducts.map((product) => (
+        <div key={product.id} className="product-card">
+
+            <div className="support-product-image" style={{ backgroundImage: `url(${product.imageUrl1})` }}></div>
+
+            <div className="product-details">
+                <h3>{product.name}</h3>
+                <div className="links">
+                    <a href="mailto:bldgtechnolgics@gmail.com" target="_blank" rel="noopener noreferrer">
+                        Contact Us
+                    </a>
+                    <a href="https://www.rednightconsulting.com/11-common-computer-issues-fix/" target="_blank" rel="noopener noreferrer">
+                       Common Solutions
+                    </a>
                 </div>
+            </div>
+
+        </div>
+    ))}
+</div>
+
             </section>
 
             <section className="tracking-section" id="tracking-section">
@@ -159,7 +179,9 @@ export default function Support() {
 
             <section className="contact-section">
                 <h2 className="contact-section-title">Any questions?</h2>
-                <p>Feel free to email us at <a href="mailto:bldgtechnolgics@gmail.com">bldgtechnolgics@gmail.com</a> or contact us at <a href="tel:+1"></a></p>
+
+                <p className="contact-section-text">Feel free to email us at <a href="mailto:bldgtechnolgics@gmail.com" target="_blank" className="contact-section-text-link">bldgtechnolgics@gmail.com</a> or contact us by <a href="tel:+19195203105" target="_blank" className="contact-section-text-link">phone</a></p>
+
                 <div className="icon-container" id="icon-support-container">
                     <a href="https://www.facebook.com/profile.php?id=61560511531799" className="facebookAccount account fa-brands fa-facebook-f fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
                     <a href="https://x.com/BLDG_Tech" className="xAccount account fa-brands fa-x-twitter fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
@@ -168,23 +190,34 @@ export default function Support() {
                     <a href="https://www.youtube.com/channel/UCkdwly93IN-U34duTFW_ipA" className="youtubeAccount account fa-brands fa-youtube fa-xl account-link" target="_blank" rel="noopener noreferrer"></a>
                 </div>
                 <div className="info-cards-section">
-                <div className="info-card">
-                    <img src="path-to-your-image1.jpg" alt="Description" className="info-card-image" />
-                    <h3 className="info-card-title">Card Title 1</h3>
-                    <p className="info-card-text">Some information about this card.</p>
-                    <button className="info-card-button">Click Me</button>
+                <div className="info-card info-card-email">
+                    <i className="fa-solid fa-envelope info-card-icons"></i>
+                    
+                    <div className="info-card-body">
+                        <h3 className="info-card-title">Email</h3>
+                        <p className="info-card-text">If you have a problem and you need assistance, consider sending us an email.</p>
+                    </div>
+                    <a className="info-card-button" target="_blank" href="mailto: bldgtechnologics@gmail.com" >Email</a>
                 </div>
-                <div className="info-card">
-                    <img src="path-to-your-image2.jpg" alt="Description" className="info-card-image" />
-                    <h3 className="info-card-title">Card Title 2</h3>
-                    <p className="info-card-text">Some information about this card.</p>
-                    <button className="info-card-button">Click Me</button>
+
+                <div className="info-card info-card-comments-and-reviews">
+                    <i className="fa-solid fa-comment info-card-icons"></i>
+
+                    <div className="info-card-body">
+                        <h3 className="info-card-title">Comments & Reviews</h3>
+                        <p className="info-card-text">Get a reply from us by commenting on our social media, or by leaving a review in our site</p>
+                    </div>
+                    <a className="info-card-button" href="/Reviews">Comments & Reviews</a>
                 </div>
-                <div className="info-card">
-                    <img src="" alt="Description" className="info-card-image" />
-                    <h3 className="info-card-title">Card Title 3</h3>
-                    <p className="info-card-text">Some information about this card.</p>
-                    <button className="info-card-button">Click Me</button>
+
+                <div className="info-card info-card-phone">
+                    <i className="fa-solid fa-phone info-card-icons"></i>
+
+                    <div className="info-card-body">
+                        <h3 className="info-card-title">Phone</h3>
+                        <p className="info-card-text">If you would like to call a computer technician that can help you diagnose a problem or if you would like installation for you product, consider calling. (we only offer installation within some areas of NC)</p>
+                    </div>
+                    <a href="tel:+19193494727" target="_blank" className="info-card-button">Phone</a>
                 </div>
                 </div>
             </section>

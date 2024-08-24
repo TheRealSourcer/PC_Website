@@ -19,7 +19,10 @@ export default function Reviews() {
     
         fetchReviews();
     }, []);
-    
+
+    // Calculate the average rating
+    const totalStars = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageStars = reviews.length > 0 ? (totalStars / reviews.length).toFixed(1) : 0;
 
     // Handle form submission
     const handleSubmitReview = async () => {
@@ -108,6 +111,11 @@ export default function Reviews() {
                 </button>
             </section>
 
+            {/* Display the average rating */}
+            <section className="average-rating">
+                <h2>Average Rating: {averageStars} Stars</h2>
+            </section>
+
             {showNewReviewForm && (
                 <div className="new-review-container">
                 <input
@@ -164,10 +172,12 @@ export default function Reviews() {
                     onClick={() => handleUsefulnessClick(review._id, 'like')} 
                     className={`fa-solid fa-thumbs-up like-button ${review.userVotes[userUUID] === 'like' ? 'activated' : ''}`}
                 ></button>
+                <span>{review.thumbsUp}</span>
                 <button 
                     onClick={() => handleUsefulnessClick(review._id, 'dislike')} 
                     className={`fa-solid fa-thumbs-down dislike-button ${review.userVotes[userUUID] === 'dislike' ? 'activated' : ''}`}
-                ></button>     
+                ></button>
+                <span>{review.thumbsDown}</span>   
             </div>
         </div>
     ))}

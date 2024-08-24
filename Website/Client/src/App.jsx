@@ -17,6 +17,9 @@ import Reviews from "./pages/reviews/reviews.jsx";
 import TermsAndConditions from "./pages/terms and conditions/terms and conditions.jsx";
 import BldgUpgrader from "./pages/bldg upgrader/bldg upgrader.jsx";
 import DreamPc from "./pages/dream PC/dream pc component.jsx";
+import Success from './pages/success/success.jsx';
+import Cancel from './pages/cancel/cancel.jsx';
+import PurchaseHistory from './pages/purchase history/purchase history.jsx';
 
 function App() {
   return (
@@ -39,6 +42,9 @@ function App() {
           <Route path="/Privacy Policy" element={<PrivacyPolicy />} />
           <Route path="/Refund Policy" element={<RefundPolicy />} />
           <Route path="/Shipping Policy" element={<ShippingPolicy />} />
+          <Route path="/Success" element={<Success />} />
+          <Route path="/Cancel" element={<Cancel />} />
+          <Route path="/Purchase History" element={<PurchaseHistory />} />
         </Routes>
       </div>
       <Footer />
